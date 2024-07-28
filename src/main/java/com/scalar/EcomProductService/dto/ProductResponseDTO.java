@@ -12,4 +12,5 @@ public class ProductResponseDTO {
     private String description;
     private String category;
     private String image;
+    private Rating rating;
 }

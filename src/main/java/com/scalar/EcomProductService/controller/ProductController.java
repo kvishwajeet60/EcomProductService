@@ -22,8 +22,8 @@ public class ProductController {
     @Qualifier("fakeStoreProductService")
     private ProductService productService;
 
-    @GetMapping("/products")
-    public ResponseEntity getAllProducts(){
+    /*@GetMapping("/products")
+    public ResponseEntity getAllProducts(){*/
         /*ProductResponseDTO productResponseDTO_1 = new ProductResponseDTO();
         productResponseDTO_1.setId(1);
         productResponseDTO_1.setTitle("IPhone 15 pro");
@@ -43,9 +43,9 @@ public class ProductController {
         List<ProductResponseDTO> products =Arrays.asList(productResponseDTO_1,productResponseDTO_2);
         return ResponseEntity.ok(products); //it wraps actual response and http status code
          */
-        ProductListResponseDTO productListResponseDTO = productService.getAllProducts();
+        /*ProductListResponseDTO productListResponseDTO = productService.getAllProducts();
         return ResponseEntity.ok(productListResponseDTO);
-    }
+    }*/
 
     @GetMapping("/products/1")
     public ResponseEntity getProductFromId(){
