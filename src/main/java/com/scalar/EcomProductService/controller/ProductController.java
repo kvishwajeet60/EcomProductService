@@ -1,29 +1,33 @@
 package com.scalar.EcomProductService.controller;
 
 import com.scalar.EcomProductService.dto.ProductListResponseDTO;
+import com.scalar.EcomProductService.dto.ProductRequestDTO;
 import com.scalar.EcomProductService.dto.ProductResponseDTO;
+import com.scalar.EcomProductService.dto.ProductResponseWithoutRatingDTO;
 import com.scalar.EcomProductService.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
 
+    /** FIELD INJECTION:
     @Autowired
     @Qualifier("fakeStoreProductService")
-    private ProductService productService;
+    private ProductService productService;*/
 
-    /*@GetMapping("/products")
-    public ResponseEntity getAllProducts(){*/
+    private final ProductService productService; //immutable
+
+    @Autowired //Autowired for constructor injection is optional after 4.x+ version
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+        this.productService = productService;
+    }
+
+
+    @GetMapping("/products")
+    public ResponseEntity getAllProducts(){
         /*ProductResponseDTO productResponseDTO_1 = new ProductResponseDTO();
         productResponseDTO_1.setId(1);
         productResponseDTO_1.setTitle("IPhone 15 pro");
@@ -43,15 +47,33 @@ public class ProductController {
         List<ProductResponseDTO> products =Arrays.asList(productResponseDTO_1,productResponseDTO_2);
         return ResponseEntity.ok(products); //it wraps actual response and http status code
          */
-        /*ProductListResponseDTO productListResponseDTO = productService.getAllProducts();
+        ProductListResponseDTO productListResponseDTO = productService.getAllProducts();
         return ResponseEntity.ok(productListResponseDTO);
-    }*/
+    }
 
-    @GetMapping("/products/1")
-    public ResponseEntity getProductFromId(){
-        ProductResponseDTO productResponseDTO = productService.getProductById(1);
-
+    @GetMapping("/products/{id}")
+    public ResponseEntity getProductFromId(@PathVariable("id") int id){
+        ProductResponseDTO productResponseDTO = productService.getProductById(id);
         return ResponseEntity.ok(productResponseDTO);
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO){
+        ProductResponseWithoutRatingDTO productResponseWithoutRatingDTO = productService.createProduct(productRequestDTO);
+        return ResponseEntity.ok(productResponseWithoutRatingDTO);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity deleteProductFromId(@PathVariable("id") int id){
+        ProductResponseDTO productResponseDTO = productService.deleteProduct(id);
+        return ResponseEntity.ok(productResponseDTO);
+    }
+
+    @PutMapping("/products/{id}") //PATCH MAPPING here not supporting
+    public ResponseEntity updateMappingById(@PathVariable("id") int id,
+                                        @RequestBody ProductRequestDTO productRequestDTO){
+        ProductResponseWithoutRatingDTO productResponseWithoutRatingDTO = productService.updateProduct(id, productRequestDTO);
+        return ResponseEntity.ok(productResponseWithoutRatingDTO);
     }
 
 }

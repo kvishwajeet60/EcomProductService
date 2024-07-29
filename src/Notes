@@ -8,3 +8,8 @@ What we have done:
 5. Implemented RestTemplate
 6. Invoked call to 3rd Party [FakeStoreAPI] to get data
 7. Returned response from controller
+
+(29th July, 2023) Building APIs -3   --> CRUD API's + Exceptional Handling
+1. Constructor injection
+2. 5 CRUD APIs - getProduct(id), getAllProducts(), createProduct(), updateProduct(), deleteProduct()
+3.
