@@ -12,6 +12,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(value = ProductNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleProductNotFoundException(Exception ex){
+
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
         errorResponseDTO.setMessage(ex.getMessage());
         errorResponseDTO.setMessageCode(912012);

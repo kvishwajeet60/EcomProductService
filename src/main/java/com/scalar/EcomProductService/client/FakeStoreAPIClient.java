@@ -1,6 +1,7 @@
 package com.scalar.EcomProductService.client;
 
 import com.scalar.EcomProductService.dto.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -17,16 +18,24 @@ public class FakeStoreAPIClient {
 
     private RestTemplateBuilder restTemplateBuilder;
 
-    public FakeStoreAPIClient(RestTemplateBuilder restTemplateBuilder) {
+    private String fakeStoreApiURL;
+
+    /* FILED INJECTION */
+    @Value("${fakestore.api.path.product}")
+    private String fakeStoreApiPathProduct;
+
+    public FakeStoreAPIClient(RestTemplateBuilder restTemplateBuilder,
+                              @Value("${fakestore.api.url}") String fakeStoreApiURL) {    /* CONSTRUCTOR INJECTION */
         this.restTemplateBuilder = restTemplateBuilder;
+        this.fakeStoreApiURL = fakeStoreApiURL;
     }
 
     public FakeStoreProductResponseDTO createProduct(FakeStoreProductRequestDTO fakeStoreProductRequestDTO) {
         //calling 3rd party API
-        String createProductURL_3rdParty = "http://fakestoreapi.com/products/";
+        String createProductURL_3rdParty = fakeStoreApiURL + fakeStoreApiPathProduct;
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        System.out.println("--> Setting HttpHeaders... createProduct in FakeStoreAPIClient");
+        System.out.println("--> Setting HttpHeaders... createProduct in FakeStoreAPIClient...");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON); // Ensure content type is set to JSON
@@ -46,10 +55,10 @@ public class FakeStoreAPIClient {
 
     public FakeStoreProductResponseDTO getProductById(int id) {
         //calling 3rd party API
-        String getProductByIdURL_3rdParty = "http://fakestoreapi.com/products/" +id    ;
+        String getProductByIdURL_3rdParty = fakeStoreApiURL + fakeStoreApiPathProduct + "/" + id;
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        System.out.println("--> Setting HttpHeaders... getProductById in FakeStoreAPIClient");
+        System.out.println("--> Setting HttpHeaders... getProductById in FakeStoreAPIClient...");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
@@ -66,10 +75,10 @@ public class FakeStoreAPIClient {
 
     public List<FakeStoreProductResponseDTO> getAllProducts() {
         //calling 3rd party API
-        String getAllProductsURL_3rdParty = "http://fakestoreapi.com/products/";
+        String getAllProductsURL_3rdParty = fakeStoreApiURL + fakeStoreApiPathProduct;
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        System.out.println("--> Setting HttpHeaders... getAllProducts in FakeStoreAPIClient");
+        System.out.println("--> Setting HttpHeaders... getAllProducts in FakeStoreAPIClient...");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
@@ -88,10 +97,10 @@ public class FakeStoreAPIClient {
 
     public FakeStoreProductResponseDTO deleteProduct(int id) {
         //calling 3rd party API
-        String deleteProductURL_3rdParty = "http://fakestoreapi.com/products/" +id    ;
+        String deleteProductURL_3rdParty = fakeStoreApiURL + fakeStoreApiPathProduct + "/" + id;
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        System.out.println("--> Setting HttpHeaders... deleteProduct in FakeStoreAPIClient");
+        System.out.println("--> Setting HttpHeaders... deleteProduct in FakeStoreAPIClient...");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
@@ -109,10 +118,10 @@ public class FakeStoreAPIClient {
     public FakeStoreProductResponseDTO updateProduct(int id, FakeStoreProductRequestDTO fakeStoreProductRequestDTO) {
 
         //calling 3rd party API
-        String updateProductURL_3rdParty = "http://fakestoreapi.com/products/" + id;
+        String updateProductURL_3rdParty = fakeStoreApiURL + fakeStoreApiPathProduct + "/" + id;
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        System.out.println("--> Setting HttpHeaders...updateProduct in FakeStoreAPIClient");
+        System.out.println("--> Setting HttpHeaders...updateProduct in FakeStoreAPIClient...");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON); // Ensure content type is set to JSON
