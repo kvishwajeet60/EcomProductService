@@ -19,12 +19,12 @@ public class ProductServiceImpl implements  ProductService {
     }
 
     @Override
-    public ProductResponseWithoutRatingDTO updateProduct(int id, ProductRequestDTO productRequestDTO) {
+    public ProductResponseDTO updateProduct(int id, ProductRequestDTO productRequestDTO) {
         return null;
     }
 
     @Override
-    public ProductResponseWithoutRatingDTO createProduct(ProductRequestDTO productRequestDTO) {
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         return null;
     }
 

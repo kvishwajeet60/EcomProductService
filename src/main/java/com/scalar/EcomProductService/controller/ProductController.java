@@ -4,6 +4,7 @@ import com.scalar.EcomProductService.dto.ProductListResponseDTO;
 import com.scalar.EcomProductService.dto.ProductRequestDTO;
 import com.scalar.EcomProductService.dto.ProductResponseDTO;
 import com.scalar.EcomProductService.dto.ProductResponseWithoutRatingDTO;
+import com.scalar.EcomProductService.exception.ProductNotFoundException;
 import com.scalar.EcomProductService.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,19 +53,19 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity getProductFromId(@PathVariable("id") int id){
+    public ResponseEntity getProductFromId(@PathVariable("id") int id) throws ProductNotFoundException {
         ProductResponseDTO productResponseDTO = productService.getProductById(id);
         return ResponseEntity.ok(productResponseDTO);
     }
 
     @PostMapping("/products")
     public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO){
-        ProductResponseWithoutRatingDTO productResponseWithoutRatingDTO = productService.createProduct(productRequestDTO);
-        return ResponseEntity.ok(productResponseWithoutRatingDTO);
+        ProductResponseDTO productResponseDTO = productService.createProduct(productRequestDTO);
+        return ResponseEntity.ok(productResponseDTO);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity deleteProductFromId(@PathVariable("id") int id){
+    public ResponseEntity deleteProductFromId(@PathVariable("id") int id) throws ProductNotFoundException {
         ProductResponseDTO productResponseDTO = productService.deleteProduct(id);
         return ResponseEntity.ok(productResponseDTO);
     }
@@ -72,8 +73,8 @@ public class ProductController {
     @PutMapping("/products/{id}") //PATCH MAPPING here not supporting
     public ResponseEntity updateMappingById(@PathVariable("id") int id,
                                         @RequestBody ProductRequestDTO productRequestDTO){
-        ProductResponseWithoutRatingDTO productResponseWithoutRatingDTO = productService.updateProduct(id, productRequestDTO);
-        return ResponseEntity.ok(productResponseWithoutRatingDTO);
+        ProductResponseDTO productResponseDTO = productService.updateProduct(id, productRequestDTO);
+        return ResponseEntity.ok(productResponseDTO);
     }
 
 }
